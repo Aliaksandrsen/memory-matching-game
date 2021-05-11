@@ -14,20 +14,49 @@ const pokemon = [
 const doublePokemon = shuffle([...pokemon, ...pokemon]);
 
 const App = () => {
+  const [opened, setOpened] = useState([]);
+
+  // clear cards after 2 have been selected
+  useEffect(() => {
+    if (opened.length === 2) setTimeout(() => setOpened([]), 1000);
+  }, [opened]);
+
+  const flipCard = (index) => {
+    if (opened.length === 2) {
+      setOpened([]);
+    }
+    setOpened((opened) => [...opened, index]);
+  };
+
   return (
     <div className="app">
       <div className="cards">
         {doublePokemon.map((pokemon, index) => {
-          return <PokemonCard key={index} pokemon={pokemon} />;
+          let isFlipped = false;
+
+          if (opened.includes(index)) isFlipped = true;
+
+          return (
+            <PokemonCard
+              key={index}
+              pokemon={pokemon}
+              isFlipped={isFlipped}
+              flipCard={flipCard}
+              index={index}
+            />
+          );
         })}
       </div>
     </div>
   );
 };
 
-const PokemonCard = ({ pokemon }) => {
+const PokemonCard = ({ index, pokemon, isFlipped, flipCard }) => {
   return (
-    <div className="pokemon-card flipped">
+    <button
+      className={`pokemon-card ${isFlipped ? "flipped" : ""}`}
+      onClick={() => flipCard(index)}
+    >
       <div className="inner">
         <div className="front">
           <img
@@ -38,7 +67,7 @@ const PokemonCard = ({ pokemon }) => {
         </div>
         <div className="back">?</div>
       </div>
-    </div>
+    </button>
   );
 };
 
