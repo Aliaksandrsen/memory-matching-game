@@ -16,6 +16,7 @@ const doublePokemon = shuffle([...pokemon, ...pokemon]);
 const App = () => {
   const [opened, setOpened] = useState([]); // using index
   const [matched, setMatched] = useState([]); // pokemon.id
+  const [moves, setMoves] = useState(0);
 
   // check if there a match
   // if there are 2 in the opened array, check if they match
@@ -36,7 +37,6 @@ const App = () => {
   }, [opened]);
 
   // check if there is a winner
-
   useEffect(() => {
     if (matched.length === pokemon.length) {
       alert("You won!");
@@ -44,14 +44,18 @@ const App = () => {
   }, [matched]);
 
   const flipCard = (index) => {
-    if (opened.length === 2) {
-      setOpened([]);
-    }
+    // if same card was clicked
+    if (opened.includes(index)) return;
+
+    setMoves((moves) => moves + 1);
     setOpened((opened) => [...opened, index]);
   };
 
   return (
     <div className="app">
+      <p>
+        {moves} <strong>moves</strong>
+      </p>
       <div className="cards">
         {doublePokemon.map((pokemon, index) => {
           let isFlipped = false;
