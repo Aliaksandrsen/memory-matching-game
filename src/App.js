@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import shuffle from "lodash.shuffle";
 
+import PokemonCard from "./PokemonCard";
+
 import "./App.css";
 
 const pokemon = [
@@ -75,26 +77,6 @@ const App = () => {
         })}
       </div>
     </div>
-  );
-};
-
-const PokemonCard = ({ index, pokemon, isFlipped, flipCard }) => {
-  return (
-    <button
-      className={`pokemon-card ${isFlipped ? "flipped" : ""}`}
-      onClick={() => flipCard(index)}
-    >
-      <div className="inner">
-        <div className="front">
-          <img
-            src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`}
-            alt={pokemon.name}
-            width="100"
-          />
-        </div>
-        <div className="back">?</div>
-      </div>
-    </button>
   );
 };
 
